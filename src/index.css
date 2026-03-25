@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Rethink+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 234 100% 99%;
+    --foreground: 0 0% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
+
+    --primary: 243 72% 69%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 47% 92%;
+    --secondary-foreground: 0 0% 8%;
+
+    --muted: 234 60% 97%;
+    --muted-foreground: 240 5% 46%;
+
+    --accent: 243 72% 69%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 20% 92%;
+    --input: 240 20% 92%;
+    --ring: 243 72% 69%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --lavender: 243 72% 69%;
+    --lavender-soft: 240 60% 85%;
+    --lavender-glow: 243 72% 69%;
+    --surface-glass: 0 0% 100% / 0.7;
+    --shadow-soft: 0 4px 24px -4px hsl(243 72% 69% / 0.12);
+    --shadow-elevated: 0 12px 40px -8px hsl(243 72% 69% / 0.18);
+    --gradient-hero: linear-gradient(135deg, hsl(234 100% 99%) 0%, hsl(240 60% 96%) 50%, hsl(243 72% 92%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(243 72% 69%), hsl(260 60% 65%));
+    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.8), hsl(0 0% 100% / 0.4));
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 243 72% 69%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40;
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-lg border border-white/50 shadow-soft rounded-2xl;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-elevated {
+    box-shadow: var(--shadow-elevated);
+  }
+}
