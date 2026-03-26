@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Upload, Scan, Sparkles, ArrowRight, Camera, Droplets, SunMedium, ScanLine, WandSparkles, LayoutGrid, ThumbsUp, TriangleAlert, Clock3, Download, Shield, Aperture, ScanFace, Check, Circle, Layers3, Grid3X3, List } from "lucide-react";
+import { Upload, Scan, Sparkles, ArrowRight, Camera, Droplets, SunMedium, ScanLine, WandSparkles, LayoutGrid, ThumbsUp, TriangleAlert, Clock3, Download, Shield, Aperture, ScanFace, Check, Circle, Layers3, Grid3X3, List, ShieldCheck } from "lucide-react";
 import { jsPDF } from "jspdf";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
