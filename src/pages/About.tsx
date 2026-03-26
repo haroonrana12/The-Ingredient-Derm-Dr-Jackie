@@ -3,6 +3,7 @@ import { ShieldCheck, Microscope, FlaskConicalOff, Building2, BadgeAlert, FlaskC
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import drJackie from "@/assets/dr-jackie.png";
+import b1Image from "@/assets/B-1.jpg";
 import { AbstractAiImage } from "@/components/ui/abstract-ai-image";
 import { Link } from "react-router-dom";
 
@@ -176,7 +177,11 @@ const About = () => {
               <div className="relative">
                 <div className="rounded-[2.2rem] bg-[radial-gradient(circle_at_70%_15%,rgba(86,132,255,0.18),transparent_30%),linear-gradient(180deg,#0f2736_0%,#0a1821_100%)] p-4 shadow-[0_30px_80px_rgba(9,19,34,0.28)]">
                   <div className="relative h-[440px] overflow-hidden rounded-[1.7rem]">
-                    <AbstractAiImage variant="lab-blue" />
+                    <img
+                      src={b1Image}
+                      alt="Dr Jackie Her Story"
+                      className="absolute inset-0 h-full w-full object-cover object-center"
+                    />
                   </div>
                 </div>
               </div>
