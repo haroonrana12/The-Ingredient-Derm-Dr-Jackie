@@ -846,8 +846,8 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="bg-card py-24">
-        <div className="container mx-auto px-4 lg:px-8">
+      <section className="bg-card py-16 sm:py-20 md:py-24">
+        <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -862,7 +862,7 @@ const Index = () => {
             </motion.h2>
           </motion.div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s, i) => (
               <motion.div
                 key={s.title}
@@ -885,8 +885,8 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="gradient-hero py-24">
-        <div className="container mx-auto max-w-[1440px] px-4 lg:px-8">
+      <section className="gradient-hero py-16 sm:py-20 md:py-24">
+        <div className="container mx-auto max-w-[1440px] px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="font-heading text-4xl font-bold text-foreground sm:text-5xl lg:text-6xl">
               Loved by Thriving Skin
@@ -894,7 +894,7 @@ const Index = () => {
           </div>
         </div>
 
-        <div className="mt-12 space-y-6 overflow-hidden">
+        <div className="mt-8 space-y-6 overflow-hidden">
           {[
             { items: testimonials.slice(0, 11), direction: [0, -50], offset: "" },
             { items: testimonials.slice(11), direction: [-50, 0], offset: "pt-4" },
@@ -915,7 +915,7 @@ const Index = () => {
                 {[...row.items, ...row.items, ...row.items].map((t, i) => (
                   <article
                     key={`${rowIndex}-${t.name}-${i}`}
-                    className="flex min-h-[210px] w-[320px] flex-col justify-between rounded-[1.75rem] bg-white px-6 py-6 text-left shadow-soft md:w-[360px]"
+                    className="flex min-h-[210px] w-full max-w-[360px] flex-col justify-between rounded-[1.75rem] bg-white px-4 py-6 text-left shadow-soft mx-auto"
                   >
                     <div className="mb-4 flex gap-1 text-[#b28f17]">
                       {Array.from({ length: t.rating }).map((_, j) => (
@@ -938,15 +938,15 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="bg-card py-24">
-        <div className="container mx-auto max-w-[1440px] px-4 text-center lg:px-8">
+      <section className="bg-card py-16 sm:py-20 md:py-24">
+        <div className="container mx-auto max-w-[1440px] px-3 sm:px-4 md:px-6 text-center lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             className="mx-auto max-w-2xl space-y-6"
           >
-            <motion.h2 variants={fadeUp} custom={0} className="font-heading text-5xl font-bold leading-tight text-foreground sm:text-6xl lg:text-7xl">
+            <motion.h2 variants={fadeUp} custom={0} className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-foreground">
               Start your skin journey
               <br />
               today.
