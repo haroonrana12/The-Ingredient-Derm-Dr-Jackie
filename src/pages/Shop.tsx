@@ -219,9 +219,13 @@ const Shop = () => {
                   custom={index}
                   className="group"
                 >
-                  <Link to={product.href} className="block">
+                  <Link to={product.href} className="group block">
                     <article className="rounded-[2rem] bg-white p-4 shadow-soft transition-transform duration-300 group-hover:-translate-y-1">
-                      <div className={`relative h-[285px] overflow-hidden rounded-[1.5rem] bg-gradient-to-br ${product.background}`}>
+                      <div className="relative h-[285px] overflow-hidden rounded-[1.5rem] bg-white">
+                        <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-foreground backdrop-blur-md">
+                          <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                          Dr. Jackie Approved
+                        </span>
                         <img
                           src={product.image}
                           alt={product.name}
@@ -230,7 +234,10 @@ const Shop = () => {
                       </div>
 
                       <div className="px-1 pb-2 pt-5">
-                        <h3 className="text-[2rem] font-semibold leading-tight text-foreground">{product.name}</h3>
+                        <div className="flex items-start justify-between gap-4">
+                          <h3 className="font-heading text-[2rem] font-semibold leading-tight text-foreground">{product.name}</h3>
+                          <p className="pt-1 text-xl font-semibold text-primary">{product.price}</p>
+                        </div>
                         <p className="mt-1 text-sm font-medium text-muted-foreground">{product.subtitle}</p>
                         <div className="mt-4 flex flex-wrap gap-2">
                           {product.tags.map((tag) => (
