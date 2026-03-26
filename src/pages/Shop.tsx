@@ -174,15 +174,17 @@ const Shop = () => {
                       custom={index + 1}
                       className="grid gap-4 rounded-[1.75rem] bg-white/90 p-4 shadow-[0_20px_40px_rgba(136,128,196,0.12)] sm:grid-cols-[132px_1fr]"
                     >
-                      <div className={`flex min-h-[128px] items-center justify-center rounded-[1.1rem] bg-gradient-to-br ${item.background}`}>
+                      <div className={`relative min-h-[128px] overflow-hidden rounded-[1.1rem] bg-gradient-to-br ${item.background}`}>
                         {item.image ? (
                           <img
                             src={item.image}
                             alt={item.name}
-                            className="h-20 w-20 rounded-lg object-cover"
+                            className="absolute inset-0 h-full w-full object-cover object-center"
                           />
                         ) : (
-                          <MiniBottle tone={item.bottleTone} />
+                          <div className="flex h-full w-full items-center justify-center">
+                            <MiniBottle tone={item.bottleTone} />
+                          </div>
                         )}
                       </div>
                       <div className="flex flex-col justify-between py-1">
