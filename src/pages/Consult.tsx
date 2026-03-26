@@ -599,15 +599,13 @@ const Consult = () => {
 
             <section className="mb-20 grid items-center gap-10 xl:grid-cols-[1fr_1fr]">
               <div className="rounded-[2.2rem] bg-[radial-gradient(circle_at_50%_30%,rgba(89,169,255,0.42),rgba(21,43,76,0.94)_48%,#050913_100%)] p-5 shadow-[0_30px_90px_rgba(11,22,40,0.35)]">
-                <div className="relative h-[420px] overflow-hidden rounded-[1.8rem]">
-                  <div className="absolute bottom-10 left-10 h-44 w-20 rounded-[1.2rem_1.2rem_0.6rem_0.6rem] border border-[#78b8ff]/35 bg-[linear-gradient(180deg,rgba(143,213,255,0.55),rgba(34,62,108,0.18))] shadow-[0_0_24px_rgba(112,196,255,0.28)]" />
-                  <div className="absolute bottom-10 left-[7.3rem] h-64 w-4 rounded-full bg-[linear-gradient(180deg,rgba(148,223,255,0.85),rgba(62,107,170,0.15))] shadow-[0_0_18px_rgba(111,203,255,0.4)]" />
-                  <div className="absolute bottom-10 left-[10.5rem] h-52 w-24 rounded-[1.1rem_1.1rem_2rem_2rem] border border-[#89d2ff]/35 bg-[linear-gradient(180deg,rgba(167,232,255,0.72),rgba(40,66,111,0.2))] shadow-[0_0_24px_rgba(113,201,255,0.35)]" />
-                  <div className="absolute bottom-[10.5rem] left-[11.45rem] h-14 w-14 rounded-full border border-[#9be0ff]/40 bg-[linear-gradient(180deg,rgba(161,229,255,0.62),rgba(51,81,130,0.12))]" />
-                  <div className="absolute bottom-10 right-14 h-72 w-36 rounded-[2.5rem_2.5rem_1.3rem_1.3rem] border border-[#8dd7ff]/30 bg-[linear-gradient(180deg,rgba(121,201,255,0.42),rgba(37,61,103,0.14))] shadow-[0_0_35px_rgba(103,186,255,0.28)]" />
-                  <div className="absolute bottom-72 right-[5.65rem] h-12 w-20 rounded-[1rem] bg-[linear-gradient(180deg,rgba(131,210,255,0.85),rgba(73,123,189,0.7))] shadow-[0_0_25px_rgba(110,196,255,0.34)]" />
-                  <div className="absolute bottom-[8.3rem] right-[5.85rem] h-16 w-16 border-y border-[#72bcff]/30" />
-                  <div className="absolute inset-x-8 bottom-8 h-px bg-[linear-gradient(90deg,transparent,rgba(122,205,255,0.6),transparent)]" />
+                <div className="relative h-[420px] overflow-hidden rounded-[1.8rem] flex items-center justify-center bg-white/80">
+                  {/* AI-generated image: Portrait of a confident, expert female dermatologist in a modern clinical setting, with subtle science and medical elements, soft lighting, and a sense of authority and trust. */}
+                  <img
+                    src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=facearea&w=600&q=80"
+                    alt="AI generated: Confident female dermatologist in modern clinical setting, science and medical elements, soft lighting, authority and trust"
+                    className="h-full w-full object-cover object-center rounded-[1.8rem] shadow-lg border border-white/60"
+                  />
                 </div>
               </div>
 
