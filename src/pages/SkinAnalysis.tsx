@@ -207,7 +207,26 @@ const SkinAnalysis = () => {
   const [analyzing, setAnalyzing] = useState(false);
   const [results, setResults] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState("skin-photo.jpg");
+  const [uploadedPreview, setUploadedPreview] = useState<string | null>(null);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [cameraError, setCameraError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const currentStep = results ? 3 : uploaded && selectedConcerns.length > 0 ? 2 : uploaded ? 1 : 0;
+  const stepProgressWidth = ["0%", "33.333%", "66.666%", "100%"][currentStep];
+
+  useEffect(() => {
+    return () => {
+      if (uploadedPreview) {
+        URL.revokeObjectURL(uploadedPreview);
+      }
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, [uploadedPreview]);
 
   useEffect(() => {
     if (!results) return;
@@ -225,6 +244,80 @@ const SkinAnalysis = () => {
       setAnalyzing(false);
       setResults(true);
     }, 3000);
+  };
+
+  const handleFilePicked = (file?: File) => {
+    if (!file) return;
+    if (uploadedPreview) {
+      URL.revokeObjectURL(uploadedPreview);
+    }
+    setUploadedPreview(URL.createObjectURL(file));
+    setUploadedFileName(file.name);
+    setUploaded(true);
+    setResults(false);
+  };
+
+  const closeCamera = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
+    }
+    if (videoRef.current) {
+      videoRef.current.srcObject = null;
+    }
+    setCameraOpen(false);
+    setCameraError(null);
+  };
+
+  const openCamera = async () => {
+    try {
+      closeCamera();
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 720 } },
+        audio: false,
+      });
+
+      streamRef.current = stream;
+      setCameraOpen(true);
+      setCameraError(null);
+
+      window.setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          void videoRef.current.play().catch(() => undefined);
+        }
+      }, 0);
+    } catch {
+      setCameraError("Camera access was blocked or unavailable. Please allow camera permission and try again.");
+      setCameraOpen(true);
+    }
+  };
+
+  const capturePhoto = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas) return;
+
+    const width = video.videoWidth || 1280;
+    const height = video.videoHeight || 720;
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.drawImage(video, 0, 0, width, height);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+
+    if (uploadedPreview) {
+      URL.revokeObjectURL(uploadedPreview);
+    }
+
+    setUploadedPreview(dataUrl);
+    setUploadedFileName("live-camera-capture.jpg");
+    setUploaded(true);
+    setResults(false);
+    closeCamera();
   };
 
   const handleDownloadReport = () => {
@@ -325,6 +418,7 @@ const SkinAnalysis = () => {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-16">
+        <canvas ref={canvasRef} className="hidden" />
         <section className="gradient-hero py-20">
           <div className="container mx-auto max-w-[1440px] px-4 lg:px-8">
             <motion.div initial="hidden" animate="visible" className="text-center mb-12">
@@ -349,33 +443,48 @@ const SkinAnalysis = () => {
                   accept="image/png,image/jpeg,image/jpg"
                   className="hidden"
                   onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (!file) return;
-                    setUploadedFileName(file.name);
-                    setUploaded(true);
-                    setResults(false);
+                    handleFilePicked(event.target.files?.[0]);
                   }}
                 />
-
                 <motion.div variants={fadeUp} custom={3} className="mb-10 flex justify-center">
-                  <div className="inline-flex rounded-full bg-white/80 p-1 shadow-soft">
-                    {[
-                      { step: "1", label: "Upload", active: true },
-                      { step: "2", label: "Concerns", active: selectedConcerns.length > 0 },
-                      { step: "3", label: "Results", active: false },
-                    ].map((item) => (
-                      <div
-                        key={item.label}
-                        className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm ${
-                          item.active ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                        }`}
-                      >
-                        <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[11px] ${item.active ? "bg-white/20" : "bg-muted text-foreground"}`}>
-                          {item.step}
-                        </span>
-                        {item.label}
+                  <div className="w-full max-w-[430px] rounded-full bg-white/85 p-2 shadow-soft">
+                    <div className="relative overflow-hidden rounded-full bg-[#f0f1fb] px-4 py-3">
+                      <motion.div
+                        animate={{ width: stepProgressWidth }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        className="absolute inset-y-0 left-0 rounded-full bg-[linear-gradient(135deg,#6e64d7_0%,#8d84f2_100%)]"
+                      />
+
+                      <div className="relative z-10 grid grid-cols-3 items-center">
+                        {[
+                          { step: "1", label: "Upload" },
+                          { step: "2", label: "Concerns" },
+                          { step: "3", label: "Results" },
+                        ].map((item, index) => {
+                          const isReached = currentStep >= index + 1;
+
+                          return (
+                            <div
+                              key={item.label}
+                              className={`flex items-center justify-center gap-2 text-sm font-medium transition-colors ${
+                                isReached ? "text-primary-foreground" : "text-muted-foreground"
+                              }`}
+                            >
+                              <span
+                                className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] transition-colors ${
+                                  isReached
+                                    ? "bg-white/20 text-primary-foreground"
+                                    : "bg-white text-foreground shadow-sm"
+                                }`}
+                              >
+                                {item.step}
+                              </span>
+                              <span>{item.label}</span>
+                            </div>
+                          );
+                        })}
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </motion.div>
 
@@ -385,38 +494,168 @@ const SkinAnalysis = () => {
                       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(255,255,255,0.9),rgba(236,239,252,0.85)_32%,rgba(221,228,244,0.96)_100%)]" />
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(104,96,210,0.08)_100%)]" />
                       <div className="relative flex min-h-[470px] items-center justify-center overflow-hidden rounded-[1.6rem]">
-                        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(255,255,255,0.92),rgba(240,242,250,0.25)_40%,transparent_64%)]" />
-                        <div className="absolute h-[88%] w-[60%] rounded-[48%_48%_44%_44%] bg-[radial-gradient(circle_at_50%_28%,rgba(250,234,228,0.95)_0%,rgba(230,206,196,0.92)_26%,rgba(207,215,231,0.75)_74%,rgba(201,210,227,0.28)_100%)] blur-[1px]" />
-                        <div className="absolute h-[58%] w-[36%] rounded-[48%] border border-primary/20" />
-                        <div className="absolute h-[36%] w-[22%] rounded-[48%] border border-primary/25" />
-                        <div className="absolute h-[14%] w-[14%] rounded-full border border-primary/30" />
+                        {uploadedPreview ? (
+                          <>
+                            <img
+                              src={uploadedPreview}
+                              alt="Uploaded skin analysis preview"
+                              className="absolute inset-0 h-full w-full scale-105 object-cover blur-[7px]"
+                            />
+                            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,11,23,0.16)_0%,rgba(9,11,23,0.34)_100%)]" />
+                            <div className="absolute inset-0 border border-white/30" />
+                            <motion.div
+                              animate={{ y: [0, -10, 0], opacity: [0.5, 0.9, 0.5] }}
+                              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                              className="absolute left-[18%] top-[22%] text-white/80"
+                            >
+                              <ScanLine className="h-6 w-6" />
+                            </motion.div>
+                            <motion.div
+                              animate={{ y: [0, 12, 0], x: [0, -6, 0], opacity: [0.45, 0.85, 0.45] }}
+                              transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                              className="absolute right-[18%] top-[26%] text-white/70"
+                            >
+                              <Sparkles className="h-5 w-5" />
+                            </motion.div>
+                            <motion.div
+                              animate={{ y: [0, -8, 0], x: [0, 8, 0], opacity: [0.4, 0.82, 0.4] }}
+                              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+                              className="absolute bottom-[24%] left-[24%] text-white/70"
+                            >
+                              <Aperture className="h-5 w-5" />
+                            </motion.div>
+                            <motion.div
+                              animate={{ y: [0, 10, 0], opacity: [0.45, 0.9, 0.45] }}
+                              transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
+                              className="absolute bottom-[22%] right-[22%] text-white/75"
+                            >
+                              <Layers3 className="h-5 w-5" />
+                            </motion.div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(255,255,255,0.92),rgba(240,242,250,0.25)_40%,transparent_64%)]" />
+                            <div className="absolute h-[88%] w-[60%] rounded-[48%_48%_44%_44%] bg-[radial-gradient(circle_at_50%_28%,rgba(250,234,228,0.95)_0%,rgba(230,206,196,0.92)_26%,rgba(207,215,231,0.75)_74%,rgba(201,210,227,0.28)_100%)] blur-[1px]" />
+                            <div className="absolute h-[58%] w-[36%] rounded-[48%] border border-primary/20" />
+                            <div className="absolute h-[36%] w-[22%] rounded-[48%] border border-primary/25" />
+                            <div className="absolute h-[14%] w-[14%] rounded-full border border-primary/30" />
+                          </>
+                        )}
 
-                        <div className="relative z-10 max-w-[300px] text-center">
-                          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/85 text-primary shadow-soft">
+                        <div className="relative z-10 max-w-[320px] text-center">
+                          <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-2xl shadow-soft backdrop-blur-md ${
+                            uploaded ? "bg-white/18 text-white" : "bg-white/85 text-primary"
+                          }`}>
                             <Camera size={28} />
                           </div>
-                          <h3 className="mt-6 font-heading text-2xl font-bold text-foreground">
-                            {uploaded ? "Image Ready for Analysis" : "Upload or Take Photo"}
+                          <h3 className={`mt-6 font-heading text-2xl font-bold ${uploaded ? "text-white" : "text-foreground"}`}>
+                            {uploaded ? "Ready for Analysis" : "Upload or Take Photo"}
                           </h3>
-                          <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                            Ensure your face is well-lit and centered. No makeup or filters for accurate results.
+                          <p className={`mt-3 text-sm leading-7 ${uploaded ? "text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.28)]" : "text-muted-foreground"}`}>
+                            {uploaded
+                              ? "Click on Run Analysis to start the AI scan."
+                              : "Ensure your face is well-lit and centered. No makeup or filters for accurate results."}
                           </p>
                           {uploaded ? (
-                            <div className="mt-5 rounded-2xl bg-white/80 px-4 py-3 text-left shadow-soft">
-                              <p className="font-medium text-foreground">{uploadedFileName}</p>
-                              <p className="mt-1 text-sm text-muted-foreground">Photo uploaded successfully</p>
+                            <div className="mt-5 rounded-2xl bg-white/14 px-5 py-4 text-center shadow-soft backdrop-blur-md">
+                              <div className="flex items-center justify-center gap-3">
+                                <motion.div
+                                  animate={{ rotate: 360 }}
+                                  transition={{ duration: 2.8, repeat: Infinity, ease: "linear" }}
+                                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/18 text-white"
+                                >
+                                  <Scan className="h-4 w-4" />
+                                </motion.div>
+                                <p className="text-sm font-medium text-white">Photo uploaded successfully</p>
+                              </div>
+                              <div className="mt-4 h-2 overflow-hidden rounded-full bg-white/16">
+                                <motion.div
+                                  animate={{ x: ["-100%", "220%"] }}
+                                  transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+                                  className="h-full w-24 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.95)_50%,rgba(255,255,255,0)_100%)]"
+                                />
+                              </div>
                             </div>
                           ) : null}
-                          <Button
-                            type="button"
-                            onClick={() => fileInputRef.current?.click()}
-                            className="mt-6 h-12 rounded-full bg-primary px-8 text-primary-foreground hover:bg-primary/90"
-                          >
-                            {uploaded ? "Change Image" : "Select Image"}
-                          </Button>
+                          <div className="mt-6 flex flex-wrap justify-center gap-3">
+                            <Button
+                              type="button"
+                              onClick={openCamera}
+                              className="h-12 rounded-full bg-primary px-6 text-primary-foreground hover:bg-primary/90"
+                            >
+                              <Camera size={16} className="mr-2" />
+                              Take Photo
+                            </Button>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => fileInputRef.current?.click()}
+                              className="h-12 rounded-full border-white/70 bg-white/90 px-6 text-foreground hover:bg-white hover:text-foreground"
+                            >
+                              <Upload size={16} className="mr-2" />
+                              Select Image
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
+
+                    {cameraOpen ? (
+                      <div className="rounded-[1.8rem] bg-[#151826] p-5 text-white shadow-[0_24px_60px_rgba(18,21,39,0.28)]">
+                        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                          <div>
+                            <h4 className="font-heading text-2xl font-semibold">Live Camera Capture</h4>
+                            <p className="mt-1 text-sm text-white/70">
+                              Center your face, keep steady lighting, then capture a clear frame.
+                            </p>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={closeCamera}
+                            className="border-white/20 bg-white/5 text-white hover:bg-white/10 hover:text-white"
+                          >
+                            Close Camera
+                          </Button>
+                        </div>
+
+                        <div className="mt-5 overflow-hidden rounded-[1.4rem] border border-white/10 bg-black/40">
+                          {cameraError ? (
+                            <div className="flex min-h-[320px] items-center justify-center px-6 text-center text-sm leading-7 text-white/78">
+                              {cameraError}
+                            </div>
+                          ) : (
+                            <video
+                              ref={videoRef}
+                              autoPlay
+                              playsInline
+                              muted
+                              className="h-[320px] w-full object-cover md:h-[420px]"
+                            />
+                          )}
+                        </div>
+
+                        <div className="mt-5 flex flex-wrap justify-center gap-3">
+                          <Button
+                            type="button"
+                            onClick={capturePhoto}
+                            disabled={!!cameraError}
+                            className="h-12 rounded-full bg-[linear-gradient(135deg,#6e64d7_0%,#8d84f2_100%)] px-6 text-primary-foreground hover:opacity-95"
+                          >
+                            <Camera size={16} className="mr-2" />
+                            Capture Photo
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={openCamera}
+                            className="h-12 rounded-full border-white/20 bg-white/5 px-6 text-white hover:bg-white/10 hover:text-white"
+                          >
+                            Retry Camera
+                          </Button>
+                        </div>
+                      </div>
+                    ) : null}
 
                     <div className="grid gap-4 md:grid-cols-3">
                       {scanGuidelines.map((item) => (
@@ -486,15 +725,26 @@ const SkinAnalysis = () => {
                       size="lg"
                       onClick={handleAnalyze}
                       disabled={!uploaded || selectedConcerns.length === 0 || analyzing}
-                      className="h-14 w-full rounded-full bg-[#c9c4d8] text-base font-medium text-foreground hover:bg-[#bbb5cf] disabled:cursor-not-allowed disabled:opacity-60"
+                      className={`relative h-14 w-full overflow-hidden rounded-full text-base font-medium disabled:cursor-not-allowed ${
+                        uploaded && selectedConcerns.length > 0
+                          ? "bg-[linear-gradient(135deg,#6e64d7_0%,#8d84f2_100%)] text-primary-foreground hover:opacity-95"
+                          : "bg-[#c9c4d8] text-foreground hover:bg-[#bbb5cf] disabled:opacity-60"
+                      }`}
                     >
                       {analyzing ? (
-                        <span className="flex items-center gap-2">
+                        <motion.div
+                          animate={{ x: ["-100%", "220%"] }}
+                          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                          className="absolute inset-y-0 left-0 w-28 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.32)_50%,rgba(255,255,255,0)_100%)]"
+                        />
+                      ) : null}
+                      {analyzing ? (
+                        <span className="relative z-10 flex items-center gap-2 text-primary-foreground">
                           <Scan size={18} className="animate-spin" />
                           Running Analysis...
                         </span>
                       ) : (
-                        "Run Analysis"
+                        <span className="relative z-10">Run Analysis</span>
                       )}
                     </Button>
                   </motion.div>
@@ -835,15 +1085,20 @@ const SkinAnalysis = () => {
                   <Button
                     variant="outline"
                     className="rounded-full px-8 border-border hover:bg-muted"
-                    onClick={() => {
-                      setResults(false);
-                      setUploaded(false);
-                      setSelectedConcerns([]);
-                      setUploadedFileName("skin-photo.jpg");
-                      if (fileInputRef.current) {
-                        fileInputRef.current.value = "";
-                      }
-                    }}
+                      onClick={() => {
+                        closeCamera();
+                        setResults(false);
+                        setUploaded(false);
+                        setSelectedConcerns([]);
+                        setUploadedFileName("skin-photo.jpg");
+                        if (uploadedPreview) {
+                          URL.revokeObjectURL(uploadedPreview);
+                        }
+                        setUploadedPreview(null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
                   >
                     Start Over
                   </Button>

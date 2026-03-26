@@ -1,3 +1,6 @@
+import afterAcne from "@/assets/after-acne.png";
+import beforeAcne from "@/assets/before-acne.png";
+
 type AbstractAiImageVariant =
   | "skin-before"
   | "skin-after"
@@ -20,17 +23,11 @@ export function AbstractAiImage({ variant, className = "" }: AbstractAiImageProp
   if (variant === "skin-before") {
     return (
       <div className={`${shellClass} ${className}`}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_38%,#f2c7ad_0%,#de9d84_26%,#c17a70_46%,#8e5358_68%,#5a3741_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_78%,rgba(210,75,90,0.46),transparent_26%),radial-gradient(circle_at_72%_18%,rgba(255,255,255,0.2),transparent_24%)]" />
-        <div className="absolute -left-10 top-10 h-80 w-80 rounded-full bg-[#f7d5c3]/45 blur-3xl" />
-        <div className="absolute bottom-0 left-[-8%] h-[92%] w-[86%] rounded-[48%_42%_12%_0] bg-[radial-gradient(circle_at_52%_35%,rgba(248,212,191,0.95),rgba(233,178,154,0.88)_32%,rgba(202,127,119,0.78)_56%,rgba(117,68,73,0.86)_100%)]" />
-        <div className="absolute left-[17%] top-[31%] h-16 w-24 rounded-[50%] border-b-4 border-[#4d2b2d]/60 bg-[radial-gradient(circle_at_50%_50%,#9fb0a9_0%,#647870_52%,#2d3333_100%)]" />
-        <div className="absolute left-[8%] top-[52%] h-24 w-28 rounded-full bg-[#d25e67]/26 blur-xl" />
-        <div className="absolute left-[20%] top-[55%] grid grid-cols-4 gap-2 opacity-80">
-          {Array.from({ length: 12 }).map((_, i) => (
-            <span key={i} className="h-2.5 w-2.5 rounded-full bg-[#c54e57]/75" />
-          ))}
-        </div>
+        <img
+          src={beforeAcne}
+          alt="Before acne treatment"
+          className="h-full w-full object-cover object-center"
+        />
       </div>
     );
   }
@@ -38,13 +35,11 @@ export function AbstractAiImage({ variant, className = "" }: AbstractAiImageProp
   if (variant === "skin-after") {
     return (
       <div className={`${shellClass} ${className}`}>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_18%,#ffe2c5_0%,#f4bf97_22%,#d99f84_48%,#9d7280_74%,#5e4556_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_74%_14%,rgba(255,255,255,0.5),transparent_20%),radial-gradient(circle_at_34%_60%,rgba(255,226,196,0.34),transparent_34%)]" />
-        <div className="absolute left-[18%] top-[12%] h-[84%] w-[64%] rounded-[42%_42%_34%_34%] bg-[radial-gradient(circle_at_52%_28%,rgba(255,233,215,0.96),rgba(244,202,172,0.92)_26%,rgba(224,164,138,0.88)_52%,rgba(147,104,111,0.86)_100%)]" />
-        <div className="absolute left-[27%] top-[28%] h-14 w-20 rounded-full border-b-4 border-[#523336]/50 bg-[radial-gradient(circle_at_50%_46%,#8ab0ba_0%,#57788b_46%,#24333a_100%)]" />
-        <div className="absolute left-[54%] top-[28%] h-14 w-20 rounded-full border-b-4 border-[#523336]/50 bg-[radial-gradient(circle_at_50%_46%,#8ab0ba_0%,#57788b_46%,#24333a_100%)]" />
-        <div className="absolute left-[34%] top-[56%] h-5 w-28 rounded-full bg-[linear-gradient(180deg,rgba(227,132,127,0.92),rgba(199,101,107,0.95))]" />
-        <div className="absolute left-[48%] top-[40%] h-28 w-5 rounded-full bg-white/10 blur-md" />
+        <img
+          src={afterAcne}
+          alt="After acne treatment"
+          className="h-full w-full object-cover object-center"
+        />
       </div>
     );
   }

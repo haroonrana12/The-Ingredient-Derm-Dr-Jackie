@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import drJackie from "@/assets/dr-jackie.jpg";
+import drJackie from "@/assets/dr-jackie.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },

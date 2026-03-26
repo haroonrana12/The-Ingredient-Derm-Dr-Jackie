@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { ShieldCheck, Microscope, FlaskConicalOff, Building2, BadgeAlert, FlaskConical, UserRoundSearch, ArrowRight } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import drJackie from "@/assets/dr-jackie.jpg";
+import drJackie from "@/assets/dr-jackie.png";
 import { AbstractAiImage } from "@/components/ui/abstract-ai-image";
 import { Link } from "react-router-dom";
 

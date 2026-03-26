@@ -9,6 +9,7 @@ import SkinAnalysis from "./pages/SkinAnalysis";
 import Consult from "./pages/Consult";
 import ConsultPayment from "./pages/ConsultPayment";
 import MembershipPayment from "./pages/MembershipPayment";
+import ProductDetail from "./pages/ProductDetail";
 import Shop from "./pages/Shop";
 import Learn from "./pages/Learn";
 import About from "./pages/About";
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/consult" element={<Consult />} />
           <Route path="/consult/payment" element={<ConsultPayment />} />
           <Route path="/membership/payment" element={<MembershipPayment />} />
+          <Route path="/shop/:slug" element={<ProductDetail />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/about" element={<About />} />

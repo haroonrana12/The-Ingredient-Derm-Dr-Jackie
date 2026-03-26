@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { AbstractAiImage } from "@/components/ui/abstract-ai-image";
 import productsHero from "@/assets/products-hero.jpg";
-import drJackie from "@/assets/dr-jackie.jpg";
+import drJackie from "@/assets/dr-jackie.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },

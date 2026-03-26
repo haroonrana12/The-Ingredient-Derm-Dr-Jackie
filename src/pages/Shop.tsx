@@ -5,6 +5,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import molecularRepairImage from "@/assets/M-1.png";
+import ceramideBarrierImage from "@/assets/M-2.png";
+import invisibleShieldImage from "@/assets/M-3.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 28 },
@@ -36,101 +39,39 @@ const recommendedProducts = [
 
 const products = [
   {
-    name: "Cloud Cleanser",
+    name: "Blemish Clarifying Serum",
+    subtitle: "Intensive Corrective Treatment",
     price: "$42.00",
-    tags: ["Glycerin", "B5", "Aloe"],
-    background: "from-[#f2f4f6] via-[#eef1f5] to-[#dadee7]",
-    accent: "bg-[#cadadd]",
-    shape: "tall",
+    description: "Targets overactive sebaceous glands without dehydrating the epidermis.",
+    background: "from-[#f6d39a] via-[#f0bc73] to-[#d28a38]",
+    image: molecularRepairImage,
+    imageClassName: "object-cover object-center scale-[1.05]",
+    tags: ["2% Salicylic", "Zinc PCA"],
+    href: "/shop",
   },
   {
-    name: "Active Repair Serum",
-    price: "$68.00",
-    tags: ["Niacinamide", "Zinc PCA"],
-    background: "from-[#cfd49a] via-[#c2cb8b] to-[#b5be7a]",
-    accent: "bg-[#543117]",
-    shape: "dropper",
+    name: "Niacinamide Glow Drop",
+    subtitle: "Texture & Pore Refiner",
+    price: "$48.00",
+    description: "Refining serum designed to support smoother texture and a more balanced-looking tone.",
+    background: "from-[#2d3237] via-[#16191c] to-[#4b5258]",
+    image: ceramideBarrierImage,
+    imageClassName: "object-cover object-center scale-[1.06]",
+    tags: ["10% Niacinamide", "Rice Water"],
+    href: "/shop/niacinamide-glow-drop",
   },
   {
-    name: "Silk Shield SPF 50",
+    name: "Lipid Restore Balm",
+    subtitle: "Deep Hydration Barrier",
     price: "$38.00",
-    tags: ["Zinc Oxide", "Squalane"],
-    background: "from-[#f8f7f2] via-[#f2efe6] to-[#ece8dc]",
-    accent: "bg-[#f7f4ec]",
-    shape: "round",
-  },
-  {
-    name: "The Glow Kit",
-    price: "$115.00",
-    tags: ["Vitamin C", "Peptides"],
-    background: "from-[#4d8b84] via-[#6aa397] to-[#88b9b2]",
-    accent: "bg-white",
-    shape: "kit",
+    description: "Strengthens the protective barrier to prevent transepidermal water loss.",
+    background: "from-[#8a66bf] via-[#ac8ee2] to-[#d5c0ff]",
+    image: invisibleShieldImage,
+    imageClassName: "object-cover object-center scale-[1.04]",
+    tags: ["Ceramides", "Squalane"],
+    href: "/shop",
   },
 ];
-
-const ProductIllustration = ({
-  shape,
-  accent,
-}: {
-  shape: "tall" | "dropper" | "round" | "kit";
-  accent: string;
-}) => {
-  if (shape === "dropper") {
-    return (
-      <div className="relative flex h-full items-end justify-center pb-8">
-        <div className="absolute bottom-7 h-32 w-20 rounded-[2rem_2rem_1.2rem_1.2rem] bg-[#6e3e1f] shadow-[0_20px_35px_rgba(58,29,7,0.25)]" />
-        <div className="absolute bottom-36 h-6 w-10 rounded-t-md bg-[#23160f]" />
-        <div className="absolute bottom-[11.2rem] h-7 w-1 rounded-full bg-[#23160f]" />
-        <div className="absolute bottom-14 flex h-16 w-14 items-center justify-center rounded-sm bg-[#f7f0e9] text-center text-[10px] font-medium uppercase tracking-[0.25em] text-[#3b2414]">
-          Product
-          <br />
-          2
-        </div>
-      </div>
-    );
-  }
-
-  if (shape === "round") {
-    return (
-      <div className="relative flex h-full items-end justify-center pb-7">
-        <div className="absolute bottom-4 h-5 w-28 rounded-full bg-[#cfae7f]/70 blur-[1px]" />
-        <div className="absolute bottom-5 h-6 w-24 rounded-full bg-[#d7b88a]" />
-        <div className="absolute bottom-10 h-36 w-20 rounded-[2rem_2rem_1.1rem_1.1rem] bg-white shadow-[0_18px_32px_rgba(163,144,115,0.18)]" />
-        <div className="absolute bottom-[10.5rem] h-6 w-10 rounded-md bg-[#f3f2ef]" />
-        <div className="absolute bottom-20 flex h-16 w-12 items-center justify-center rounded-sm bg-[#faf7f2] text-center text-[10px] font-medium uppercase tracking-[0.15em] text-[#5e4d39]">
-          SPF
-          <br />
-          50
-        </div>
-      </div>
-    );
-  }
-
-  if (shape === "kit") {
-    return (
-      <div className="relative flex h-full items-end justify-center pb-8">
-        <div className="absolute bottom-7 left-10 h-24 w-12 rounded-[1rem_1rem_0.7rem_0.7rem] bg-[#66422d] shadow-[0_20px_30px_rgba(32,23,17,0.25)]" />
-        <div className="absolute bottom-28 left-[3.6rem] h-5 w-5 rounded-sm bg-[#f6f6f4]" />
-        <div className="absolute bottom-9 right-9 flex h-40 w-24 items-center justify-center rounded-sm bg-white text-6xl font-light text-[#26252c] shadow-[0_24px_40px_rgba(30,31,43,0.18)]">
-          4
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative flex h-full items-end justify-center pb-8">
-      <div className="absolute bottom-7 left-4 h-16 w-10 rounded-[1rem_1rem_0.7rem_0.7rem] bg-[#d2d9dc] shadow-[0_15px_24px_rgba(78,86,95,0.18)]" />
-      <div className="absolute bottom-22 left-[1.55rem] h-4 w-3 rounded-sm bg-[#f2f2f0]" />
-      <div className="absolute bottom-7 right-5 h-48 w-28 rounded-[1.7rem] border border-[#7f828b] bg-[#f7f7f4] shadow-[0_20px_35px_rgba(131,137,149,0.15)]" />
-      <div className="absolute right-[2.35rem] top-10 h-7 w-12 rounded-b-lg bg-[#202127]" />
-      <div className={`absolute bottom-16 right-[2.55rem] flex h-14 w-20 items-center justify-center rounded-sm text-center text-[10px] font-medium uppercase tracking-[0.18em] text-[#4d555a] ${accent}`}>
-        Padut
-      </div>
-    </div>
-  );
-};
 
 const MiniBottle = ({ tone }: { tone: string }) => (
   <div className="relative flex h-24 w-24 items-center justify-center rounded-[1.1rem] bg-white/50">
@@ -253,9 +194,9 @@ const Shop = () => {
               </div>
             </motion.section>
 
-            <section className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+            <section className="mt-12 grid gap-8 md:grid-cols-2 xl:grid-cols-3">
               {products.map((product, index) => (
-                <motion.article
+                <motion.div
                   key={product.name}
                   initial="hidden"
                   whileInView="visible"
@@ -264,31 +205,36 @@ const Shop = () => {
                   custom={index}
                   className="group"
                 >
-                  <div className={`relative h-[290px] overflow-hidden rounded-[1.9rem] bg-gradient-to-br ${product.background} p-4 shadow-soft transition-transform duration-300 group-hover:-translate-y-1`}>
-                    <Badge className="rounded-full border border-white/80 bg-white/85 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-foreground shadow-sm">
-                      <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-primary" />
-                      Dr. Jackie Approved
-                    </Badge>
-                    <ProductIllustration shape={product.shape} accent={product.accent} />
-                  </div>
+                  <Link to={product.href} className="block">
+                    <article className="rounded-[2rem] bg-white p-4 shadow-soft transition-transform duration-300 group-hover:-translate-y-1">
+                      <div className={`relative h-[285px] overflow-hidden rounded-[1.5rem] bg-gradient-to-br ${product.background}`}>
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className={`h-full w-full ${product.imageClassName}`}
+                        />
+                      </div>
 
-                  <div className="pt-4">
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="text-2xl font-semibold text-foreground">{product.name}</h3>
-                      <p className="pt-1 text-lg font-semibold text-primary">{product.price}</p>
-                    </div>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {product.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-muted px-2.5 py-1 text-[11px] text-muted-foreground"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.article>
+                      <div className="px-1 pb-2 pt-5">
+                        <h3 className="text-[2rem] font-semibold leading-tight text-foreground">{product.name}</h3>
+                        <p className="mt-1 text-sm font-medium text-muted-foreground">{product.subtitle}</p>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {product.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/80"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                          {product.description}
+                        </p>
+                      </div>
+                    </article>
+                  </Link>
+                </motion.div>
               ))}
             </section>
 
