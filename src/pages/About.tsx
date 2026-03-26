@@ -175,7 +175,7 @@ const About = () => {
               </div>
 
               <div className="relative">
-                <div className="rounded-[2.2rem] bg-[radial-gradient(circle_at_70%_15%,rgba(86,132,255,0.18),transparent_30%),linear-gradient(180deg,#0f2736_0%,#0a1821_100%)] p-4 shadow-[0_30px_80px_rgba(9,19,34,0.28)]">
+                <div className="rounded-[2.2rem] bg-[radial-gradient(circle_at_70%_15%,rgba(86,132,255,0.18),transparent_30%),linear-gradient(180deg,#0f2736_0%,#0a1821_100%)] shadow-[0_30px_80px_rgba(9,19,34,0.28)]">
                   <div className="relative h-[440px] overflow-hidden rounded-[1.7rem] border border-white/40 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)]">
                     <img
                       src={b1Image}
