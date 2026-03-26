@@ -394,50 +394,12 @@ const SkinAnalysis = () => {
       y += 6;
     });
 
-
-    // Beautiful Curated Selection Cards in PDF
     addTextBlock(`Curated Selection`, { size: 18, weight: "bold", gap: 10 });
-    const cardW = 170, cardH = 54, cardGap = 12;
-    let cardX = 20, cardY = y + 8;
-    curatedProducts.forEach((product, idx) => {
-      // Card background
-      doc.setFillColor(255, 255, 255);
-      doc.roundedRect(cardX, cardY, cardW, cardH, 8, 8, 'F');
-      // Badge
-      doc.setFillColor(245, 240, 255);
-      doc.roundedRect(cardX + 8, cardY + 7, 48, 12, 6, 6, 'F');
-      doc.setFontSize(8);
-      doc.setTextColor(107, 99, 213);
-      doc.text('✔ Dr. Jackie Approved', cardX + 12, cardY + 16);
-      // Product name
-      doc.setFontSize(13);
-      doc.setTextColor(37, 35, 93);
-      doc.setFont(undefined, 'bold');
-      doc.text(product.name, cardX + 8, cardY + 30);
-      // Subtitle
-      doc.setFontSize(10);
-      doc.setFont(undefined, 'normal');
-      doc.setTextColor(120, 120, 120);
-      doc.text(product.subtitle, cardX + 8, cardY + 38);
-      // Tags (ingredient pills)
-      let tagX = cardX + 8, tagY = cardY + 46;
-      product.tags.forEach((tag) => {
-        const tagW = doc.getTextWidth(tag) + 12;
-        doc.setFillColor(245, 242, 255);
-        doc.roundedRect(tagX, tagY - 7, tagW, 12, 6, 6, 'F');
-        doc.setFontSize(8.5);
-        doc.setTextColor(107, 99, 213);
-        doc.text(tag, tagX + 6, tagY + 2);
-        tagX += tagW + 4;
-      });
-      // Description
-      doc.setFontSize(9.5);
-      doc.setTextColor(70, 74, 90);
-      doc.text(doc.splitTextToSize(product.description, cardW - 16), cardX + 8, cardY + cardH - 4);
-      // Next card position
-      cardY += cardH + cardGap;
+    curatedProducts.forEach((product) => {
+      addTextBlock(`${product.name} - ${product.subtitle}`, { size: 12, weight: "bold", gap: 6 });
+      addTextBlock(product.description, { size: 10.5, color: [70, 74, 90], gap: 4 });
+      addTextBlock(`Key ingredients: ${product.tags.join(", ")}`, { size: 10, color: [107, 99, 213], gap: 10 });
     });
-    y = cardY;
 
     addTextBlock(`Ingredient Intelligence`, { size: 18, weight: "bold", gap: 10 });
     addTextBlock(`Recommended Ingredients: ${intelligenceGroups[0].pills.join(", ")}`, { gap: 8 });
