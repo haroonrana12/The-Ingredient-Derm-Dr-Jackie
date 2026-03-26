@@ -5,6 +5,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import c1Image from "@/assets/C-1.jpg";
+import c2Image from "@/assets/C-2.png";
 import molecularRepairImage from "@/assets/M-1.png";
 import ceramideBarrierImage from "@/assets/M-2.png";
 import invisibleShieldImage from "@/assets/M-3.png";
@@ -27,6 +29,7 @@ const recommendedProducts = [
     match: "98% Match to Skin Needs",
     background: "from-[#f6c1a1] via-[#f8dcc6] to-[#fff2e9]",
     bottleTone: "bg-[#f5e5d8]",
+    image: c1Image,
   },
   {
     tag: "Hydration",
@@ -34,6 +37,7 @@ const recommendedProducts = [
     match: "92% Match to Skin Needs",
     background: "from-[#f6c9a4] via-[#f8ddc3] to-[#fff3e7]",
     bottleTone: "bg-[#fbefe4]",
+    image: c2Image,
   },
 ];
 
@@ -171,7 +175,15 @@ const Shop = () => {
                       className="grid gap-4 rounded-[1.75rem] bg-white/90 p-4 shadow-[0_20px_40px_rgba(136,128,196,0.12)] sm:grid-cols-[132px_1fr]"
                     >
                       <div className={`flex min-h-[128px] items-center justify-center rounded-[1.1rem] bg-gradient-to-br ${item.background}`}>
-                        <MiniBottle tone={item.bottleTone} />
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-20 w-20 rounded-lg object-cover"
+                          />
+                        ) : (
+                          <MiniBottle tone={item.bottleTone} />
+                        )}
                       </div>
                       <div className="flex flex-col justify-between py-1">
                         <div>
