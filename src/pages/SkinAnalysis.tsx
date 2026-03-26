@@ -966,19 +966,28 @@ const SkinAnalysis = () => {
                     </div>
                   </div>
 
-                  <div className="grid gap-5 lg:grid-cols-3">
+                  <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {curatedProducts.map((product, index) => (
                       <motion.article
                         key={product.name}
                         variants={fadeUp}
                         custom={index + 9}
-                        className="rounded-[1.8rem] bg-white p-4 shadow-soft"
+                        className="rounded-[2rem] bg-white p-4 shadow-soft"
                       >
-                        <div className={`h-[250px] overflow-hidden rounded-[1.35rem] bg-gradient-to-br ${product.background}`}>
+                        <div className="relative h-[250px] overflow-hidden rounded-[1.5rem] bg-white">
+                          <span className="absolute left-4 top-4 z-10 inline-flex items-center gap-2 rounded-full bg-white/72 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-foreground backdrop-blur-md">
+                            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                            Dr. Jackie Approved
+                          </span>
                           <ProductCardArtwork style={product.style} />
                         </div>
-                        <div className="px-2 pb-2 pt-5">
-                          <h4 className="text-2xl font-semibold text-foreground">{product.name}</h4>
+                        <div className="px-1 pb-2 pt-5">
+                          <div className="flex items-start justify-between gap-4">
+                            <h3 className="font-heading text-[2rem] font-semibold leading-tight text-foreground">{product.name}</h3>
+                            {product.price && (
+                              <p className="pt-1 text-xl font-semibold text-primary">{product.price}</p>
+                            )}
+                          </div>
                           <p className="mt-1 text-sm font-medium text-muted-foreground">{product.subtitle}</p>
                           <div className="mt-4 flex flex-wrap gap-2">
                             {product.tags.map((tag) => (
