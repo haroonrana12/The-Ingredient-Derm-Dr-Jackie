@@ -21,11 +21,11 @@ const Auth = () => {
       <main className="pt-16">
         <section className="gradient-hero py-20">
           <div className="container mx-auto max-w-[1380px] px-4 lg:px-8">
-            <div className="grid gap-10 xl:grid-cols-[0.92fr_1.08fr]">
+            <div className="grid min-h-[700px] items-stretch gap-10 xl:grid-cols-[0.92fr_1.08fr]">
               <motion.div
                 initial="hidden"
                 animate="visible"
-                className="flex flex-col justify-center"
+                className="flex h-full flex-col justify-center"
               >
                 <motion.div
                   variants={fadeUp}
