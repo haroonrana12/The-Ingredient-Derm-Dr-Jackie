@@ -6,6 +6,9 @@ import Footer from "@/components/layout/Footer";
 import { AbstractAiImage } from "@/components/ui/abstract-ai-image";
 import productsHero from "@/assets/products-hero.jpg";
 import drJackie from "@/assets/dr-jackie.png";
+import e5 from "@/assets/E-5.png";
+import e6 from "@/assets/E-6.png";
+import e7 from "@/assets/E-7.png";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -45,6 +48,7 @@ const editorPicks = [
     readTime: "8 min read",
     excerpt: "Understanding the endocrine system's impact on your complexion and the routines that actually help.",
     variant: "editor-acne" as const,
+    image: e5,
   },
   {
     title: "The Do-Not-Mix List: Skincare Conflicts",
@@ -52,6 +56,7 @@ const editorPicks = [
     readTime: "12 min read",
     excerpt: "Why pairing Vitamin C and Retinol might be hindering your results and what to do instead.",
     variant: "editor-conflict" as const,
+    image: e6,
   },
   {
     title: "How to Build a Custom Skincare Routine",
@@ -59,6 +64,7 @@ const editorPicks = [
     readTime: "6 min read",
     excerpt: "A step-by-step guide to identifying your skin type and layering products with confidence.",
     variant: "editor-routine" as const,
+    image: e7,
   },
 ];
 
@@ -200,7 +206,15 @@ const Learn = () => {
                     className="overflow-hidden rounded-[2rem] bg-white shadow-soft"
                   >
                     <div className="h-[220px]">
-                      <AbstractAiImage variant={pick.variant} />
+                      {pick.image ? (
+                        <img
+                          src={pick.image}
+                          alt={pick.title}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <AbstractAiImage variant={pick.variant} />
+                      )}
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-3">
