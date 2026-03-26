@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import drJackie from "@/assets/dr-jackie.png";
+import c3Image from "@/assets/C-3.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -598,12 +599,11 @@ const Consult = () => {
             </section>
 
             <section className="mb-20 grid items-center gap-10 xl:grid-cols-[1fr_1fr]">
-              <div className="rounded-[2.2rem] bg-[radial-gradient(circle_at_50%_30%,rgba(89,169,255,0.42),rgba(21,43,76,0.94)_48%,#050913_100%)] p-5 shadow-[0_30px_90px_rgba(11,22,40,0.35)]">
+              <div className="rounded-[2.2rem] bg-[radial-gradient(circle_at_50%_30%,rgba(89,169,255,0.42),rgba(21,43,76,0.94)_48%,#050913_100%)] shadow-[0_30px_90px_rgba(11,22,40,0.35)]">
                 <div className="relative h-[420px] overflow-hidden rounded-[1.8rem] flex items-center justify-center bg-white/80">
-                  {/* AI-generated image: Portrait of a confident, expert female dermatologist in a modern clinical setting, with subtle science and medical elements, soft lighting, and a sense of authority and trust. */}
                   <img
-                    src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=facearea&w=600&q=80"
-                    alt="AI generated: Confident female dermatologist in modern clinical setting, science and medical elements, soft lighting, authority and trust"
+                    src={c3Image}
+                    alt="Clinical authority - dermatologist"
                     className="h-full w-full object-cover object-center rounded-[1.8rem] shadow-lg border border-white/60"
                   />
                 </div>
